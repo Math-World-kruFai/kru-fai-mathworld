@@ -5892,3 +5892,88 @@ window.addEventListener('DOMContentLoaded', pwaInit);
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math World Kru Fai</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f0f4f8;
+            padding: 50px 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+        }
+        .counter-box {
+            background: #eff6ff;
+            border: 2px solid #bfdbfe;
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        .counter-title {
+            font-size: 1.1rem;
+            color: #1e40af;
+            margin-bottom: 8px;
+        }
+        .counter-number {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ยินดีต้อนรับสู่ Math World Kru Fai</h1>
+        <p>เว็บไซต์สื่อการเรียนรู้คณิตศาสตร์</p>
+
+        <!-- ส่วนแสดงยอดผู้เข้าชม -->
+        <div class="counter-box">
+            <div class="counter-title">👁️ จำนวนการเข้าชมทั้งหมด</div>
+            <div class="counter-number" id="hit-count">กำลังโหลด...</div>
+        </div>
+    </div>
+
+    <!-- สคริปต์นับยอดอัตโนมัติ -->
+    <script>
+        const namespace = 'math-world-krufai';
+        const key = 'page-views';
+
+        function updateCounter() {
+            // ดึง API พร้อมใส่ Date.now() ป้องกัน Cache เพื่อให้นับเพิ่มทุกรอบที่เรียก
+            fetch(`https://api.countapi.xyz/hit/${namespace}/${key}?t=${Date.now()}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('hit-count').innerText = data.value.toLocaleString();
+                })
+                .catch(err => {
+                    console.error('Error fetching visitor count:', err);
+                });
+        }
+
+        // 1. นับยอดทันทีเมื่อโหลดหน้าเว็บ
+        updateCounter();
+
+        // 2. ปั๊มยอดอัตโนมัติเพิ่มขึ้นเรื่อยๆ ทุกๆ 2 วินาที (2000 มิลลิวินาที)
+        setInterval(updateCounter, 2000);
+    </script>
+
+</body>
+</html>
